@@ -15,8 +15,12 @@ jobs:
         run: echo "Running on ${{ runner.os }}"
       - name: Display repository details
         run: echo "Repository ${{ github.repository }}"
-      - name: git github.TOKEN
-        run: echo "${{ github.TOKEN }}"
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t reboot-bot:latest .
 
   deploy:
     runs-on: self-hosted
