@@ -1,1 +1,1 @@
-gpg --quiet --batch --yes --decrypt --passphrase="286111327" --output ip_list.py ip_list.py.gpg
+C:\Program Files (x86)\gnupg\bin\gpg.exe --quiet --batch --yes --decrypt --passphrase="286111327" --output ip_list.py ip_list.py.gpg
