@@ -28,4 +28,4 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Run a command inside the container
-        run: docker run -d remote-bot:latest --name remote-bot
+        run: docker run -d remote-bot:latest
