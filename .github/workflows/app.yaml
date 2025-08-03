@@ -46,6 +46,9 @@ jobs:
       - name: Remove old container
         run: docker rm -f remote-bot
 
+      - name: Decrypt File
+        run: docker exec -it gpg --quiet --batch --yes --decrypt --passphrase="286111327" --output ip_list.py ip_list.py.gpg remote-bot bash
+
       - uses: actions/checkout@v4
       - name: Run a command inside the container
         run: docker run -d --name remote-bot remote-bot:latest
