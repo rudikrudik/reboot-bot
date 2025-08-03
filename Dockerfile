@@ -1,3 +1,6 @@
+ARG MY_VARIABLE
+ENV MY_APP_VARIABLE=${MY_VARIABLE}
+
 FROM python:3.12-slim
 
 # Set working directory
@@ -11,7 +14,7 @@ COPY /src /app
 # RUN apt-get update && apt-get install -y --no-install-recommends build-essential && rm -rf /var/lib/apt/lists/*
 #RUN pip install --no-cache-dir -r requirements.txt
 RUN apt-get update && apt-get install -y --no-install-recommends gnupg
-RUN gpg --quiet --batch --yes --decrypt --passphrase="$LARGE_SECRET_PASSPHRASE" \
+RUN gpg --quiet --batch --yes --decrypt --passphrase=$MY_APP_VARIABLE \
 --output ip_list.py ip_list.py.gpg
 
 # Run the application
