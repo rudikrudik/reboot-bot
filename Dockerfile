@@ -10,7 +10,7 @@ COPY /src /app
 # Note: You might need to install build dependencies before pip install if packages require compilation
 # RUN apt-get update && apt-get install -y --no-install-recommends build-essential && rm -rf /var/lib/apt/lists/*
 #RUN pip install --no-cache-dir -r requirements.txt
-RUN apt-get install -y gpg
+RUN apt-get install -y gnupg
 
 # Run the application
 CMD ["python", "main.py"]
