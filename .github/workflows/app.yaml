@@ -47,7 +47,7 @@ jobs:
         run: docker rm -f remote-bot
 
       - name: Decrypt File
-        run: docker exec -it gpg --quiet --batch --yes --decrypt --passphrase="286111327" --output ip_list.py ip_list.py.gpg remote-bot bash
+        run: docker exec -it remote-bot "gpg --quiet --batch --yes --decrypt --passphrase="286111327" --output ip_list.py ip_list.py.gpg" bash
 
       - uses: actions/checkout@v4
       - name: Run a command inside the container
