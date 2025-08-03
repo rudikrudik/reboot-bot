@@ -33,7 +33,7 @@ jobs:
     runs-on: self-hosted
     needs: tests
     env:
-      LARGE_SECRET_PASSPHRASE: ${{ secrets.LARGE_SECRET_PASSPHRASE }}
+      LARGE_SECRET_PASSPHRASE: 4444444
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
