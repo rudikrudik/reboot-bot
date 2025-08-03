@@ -3,19 +3,23 @@ on:
     branches:
       - master
 
+env:
+  SECRET: ${{secrets.LARGE_SECRET_PASSPHRASE}}
+
+
 jobs:
   my_job:
     runs-on: self-hosted # Specify your self-hosted runner
     env:
-      TEMP: ${{secrets.LARGE_SECRET_PASSPHRASE}}"
+      TEMP: ${{secrets.LARGE_SECRET_PASSPHRASE}}
     steps:
       - name: Echo Secret
         env:
           MY_SECRET_ENV: ${{ secrets.LARGE_SECRET_PASSPHRASE }} # Map the secret to an environment variable
         run: |
           echo "The secret value is: $MY_SECRET_ENV" # Access the environment variable
-      - name: Echo
-        run: echo "GH_PAT=$(echo $GH_PAT)" >> $GITHUB_ENV
+      - name: Echo secret
+        run: echo "$SECRET"
       - name: Echo two
         run: echo "TEMP=$TEMP" >> $GITHUB_OUTPUT
 #
