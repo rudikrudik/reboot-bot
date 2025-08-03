@@ -5,6 +5,21 @@ on:
 
 jobs:
 
+  decrypt:
+    name: Decrypt File
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+      - name: Decrypt large secret
+        run: ./decrypt_secret.sh
+        env:
+          LARGE_SECRET_PASSPHRASE: ${{ secrets.LARGE_SECRET_PASSPHRASE }}
+      # This command is just an example to show your secret being printed
+      # Ensure you remove any print statements of your secrets. GitHub does
+      # not hide secrets that use this workaround.
+      - name: Test printing your secret (Remove this step in production)
+        run: ip_list.py
+
   tests:
     runs-on: self-hosted
     steps:
@@ -45,9 +60,6 @@ jobs:
     steps:
       - name: Remove old container
         run: docker rm -f remote-bot
-
-      - name: Decrypt File
-        run: docker exec -it remote-bot "gpg --quiet --batch --yes --decrypt --passphrase="286111327" --output ip_list.py ip_list.py.gpg" bash
 
       - uses: actions/checkout@v4
       - name: Run a command inside the container
