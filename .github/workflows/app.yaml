@@ -4,25 +4,39 @@ on:
       - master
 
 jobs:
+  tests:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Run unit tests
+        run: python -m unittest tests/tests.py
+
+  lint:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Install dependencies
+        run: pip install flake8
+      - name: Run Flake8
+        run: flake8 ./src --max-line-length=120
+
   build:
     runs-on: self-hosted
+    needs: tests
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Build Docker image
         run: docker build -t remote-bot:latest .
-
-  tests:
-    runs-on: self-hosted
-    steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: "3.10"
-    - name: Run unit tests
-      run: python -m unittest tests/tests.py
 
   deploy:
     runs-on: self-hosted
