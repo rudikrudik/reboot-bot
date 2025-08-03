@@ -32,14 +32,14 @@ jobs:
   build:
     runs-on: self-hosted
     needs: tests
+    env:
+      LARGE_SECRET_PASSPHRASE: ${{ secrets.LARGE_SECRET_PASSPHRASE }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       #- name: Decrypt large secret
       #  run: C:\work\actions-runner\_work\reboot-bot\reboot-bot\src\decrypt_secret.cmd
-        env:
-          LARGE_SECRET_PASSPHRASE: ${{ secrets.LARGE_SECRET_PASSPHRASE }}
 
       - name: Print pass phrase
         run: echo "$LARGE_SECRET_PASSPHRASE"
