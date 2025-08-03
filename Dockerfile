@@ -1,5 +1,7 @@
 ARG MY_VARIABLE
 
+RUN echo "Building in environment: ${MY_VARIABLE}"
+
 FROM python:3.12-slim
 
 # Set working directory
