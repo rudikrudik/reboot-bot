@@ -5,21 +5,6 @@ on:
 
 jobs:
 
-  decrypt:
-    name: Decrypt File
-    runs-on: self-hosted
-    steps:
-      - uses: actions/checkout@v4
-      - name: Decrypt large secret
-        run: ./decrypt_secret.sh
-        env:
-          LARGE_SECRET_PASSPHRASE: ${{ secrets.LARGE_SECRET_PASSPHRASE }}
-      # This command is just an example to show your secret being printed
-      # Ensure you remove any print statements of your secrets. GitHub does
-      # not hide secrets that use this workaround.
-      - name: Test printing your secret (Remove this step in production)
-        run: ip_list.py
-
   tests:
     runs-on: self-hosted
     steps:
@@ -50,6 +35,16 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Decrypt large secret
+        run: ./decrypt_secret.sh
+        env:
+          LARGE_SECRET_PASSPHRASE: ${{ secrets.LARGE_SECRET_PASSPHRASE }}
+          # This command is just an example to show your secret being printed
+          # Ensure you remove any print statements of your secrets. GitHub does
+          # not hide secrets that use this workaround.
+      - name: Test printing your secret (Remove this step in production)
+        run: ip_list.py
 
       - name: Build Docker image
         run: docker build -t remote-bot:latest .
