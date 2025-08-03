@@ -32,6 +32,8 @@ jobs:
   build:
     runs-on: self-hosted
     needs: tests
+    env:
+      SECRET_TOKEN: 12345678
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -45,7 +47,7 @@ jobs:
       - name: Build Docker image
         run: |
           docker build . \
-          --build-arg MY_VARIABLE=${{ secrets.LARGE_SECRET_PASSPHRASE }} \
+          --build-arg MY_VARIABLE=$SECRET_TOKEN \
           -t remote-bot:latest
 
   deploy:
