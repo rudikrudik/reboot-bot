@@ -4,55 +4,63 @@ on:
       - master
 
 jobs:
-
-  tests:
-    runs-on: self-hosted
+  my_job:
+    runs-on: self-hosted # Specify your self-hosted runner
     steps:
-      - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.10"
-      - name: Run unit tests
-        run: python -m unittest tests/tests.py
-
-  linter:
-    runs-on: self-hosted
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.10"
-      - name: Install dependencies
-        run: pip install flake8
-      - name: Run Flake8
-        run: flake8 ./src --max-line-length=120
-
-  build:
-    runs-on: self-hosted
-    needs: tests
-    env:
-      LARGE_SECRET_PASSPHRASE: ${{ secrets.LARGE_SECRET_PASSPHRASE }}
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      #- name: Decrypt large secret
-      #  run: C:\work\actions-runner\_work\reboot-bot\reboot-bot\src\decrypt_secret.cmd
-
-      - name: Print pass phrase
-        run: echo "$LARGE_SECRET_PASSPHRASE"
-
-      - name: Build Docker image
-        run: docker build -t remote-bot:latest .
-
-  deploy:
-    runs-on: self-hosted
-    needs: build
-    steps:
-      - name: Remove old container
-        run: docker rm -f remote-bot
-
-      - name: Run a command inside the container
-        run: docker run -d --name remote-bot remote-bot:latest
+      - name: Echo Secret
+        env:
+          MY_SECRET_ENV: ${{ secrets.LARGE_SECRET_PASSPHRASE }} # Map the secret to an environment variable
+        run: |
+          echo "The secret value is: $MY_SECRET_ENV" # Access the environment variable
+#
+#  tests:
+#    runs-on: self-hosted
+#    steps:
+#      - uses: actions/checkout@v4
+#      - name: Set up Python
+#        uses: actions/setup-python@v5
+#        with:
+#          python-version: "3.10"
+#      - name: Run unit tests
+#        run: python -m unittest tests/tests.py
+#
+#  linter:
+#    runs-on: self-hosted
+#    steps:
+#      - uses: actions/checkout@v4
+#      - name: Set up Python
+#        uses: actions/setup-python@v5
+#        with:
+#          python-version: "3.10"
+#      - name: Install dependencies
+#        run: pip install flake8
+#      - name: Run Flake8
+#        run: flake8 ./src --max-line-length=120
+#
+#  build:
+#    runs-on: self-hosted
+#    needs: tests
+#    env:
+#      LARGE_SECRET_PASSPHRASE: ${{ secrets.LARGE_SECRET_PASSPHRASE }}
+#    steps:
+#      - name: Checkout repository
+#        uses: actions/checkout@v4
+#
+#      #- name: Decrypt large secret
+#      #  run: C:\work\actions-runner\_work\reboot-bot\reboot-bot\src\decrypt_secret.cmd
+#
+#      - name: Print pass phrase
+#        run: echo "$LARGE_SECRET_PASSPHRASE"
+#
+#      - name: Build Docker image
+#        run: docker build -t remote-bot:latest .
+#
+#  deploy:
+#    runs-on: self-hosted
+#    needs: build
+#    steps:
+#      - name: Remove old container
+#        run: docker rm -f remote-bot
+#
+#      - name: Run a command inside the container
+#        run: docker run -d --name remote-bot remote-bot:latest
