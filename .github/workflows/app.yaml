@@ -8,7 +8,7 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Print branch name
-        run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}"
+        run: echo "Branch name ${{ github.ref }}"
       - name: Print a message
         run: echo "This is a message from my GitHub Actions job!"
       - name: Show runner OS
@@ -20,11 +20,13 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build Docker image
-        run: docker build -t reboot-bot:latest .
+        run: docker build -t remote-bot:latest .
 
   deploy:
     runs-on: self-hosted
     needs: build
+    container:
+      image: remote-bot:latest
     steps:
-    - name: Manual approve
-      run: echo "Repository ${{ github.repository }}"
+      - name: Run a command inside the container
+        run: python main.py
