@@ -47,7 +47,7 @@ jobs:
       - name: Build Docker image
         run: |
           docker build . \
-          --build-arg MY_VARIABLE=$SECRET_TOKEN \
+          --build-arg MY_VARIABLE="$SECRET_TOKEN" \
           -t remote-bot:latest
 
   deploy:
