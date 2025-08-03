@@ -32,8 +32,6 @@ jobs:
   build:
     runs-on: self-hosted
     needs: tests
-    env:
-      LARGE_SECRET_PASSPHRASE: 4444444
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -45,7 +43,10 @@ jobs:
         run: echo "$LARGE_SECRET_PASSPHRASE"
 
       - name: Build Docker image
-        run: docker build -t remote-bot:latest .
+        run: |
+          docker build . \
+          --build-arg MY_VARIABLE=${{ secrets.LARGE_SECRET_PASSPHRASE }} \
+          -t remote-bot:latest
 
   deploy:
     runs-on: self-hosted
