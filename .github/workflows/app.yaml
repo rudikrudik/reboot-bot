@@ -25,7 +25,7 @@ jobs:
   deploy:
     runs-on: self-hosted
     needs: build
+    container: remote-bot:latest
     steps:
       - uses: actions/checkout@v4
-      - name: Run a command inside the container
-        run: docker run remote-bot:latest
+      - run: echo "Hello from inside the container!"
