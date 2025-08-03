@@ -40,11 +40,6 @@ jobs:
         run: C:\work\actions-runner\_work\reboot-bot\reboot-bot\src\decrypt_secret.cmd
         env:
           LARGE_SECRET_PASSPHRASE: ${{ secrets.LARGE_SECRET_PASSPHRASE }}
-          # This command is just an example to show your secret being printed
-          # Ensure you remove any print statements of your secrets. GitHub does
-          # not hide secrets that use this workaround.
-      - name: Test printing your secret (Remove this step in production)
-        run: cat ip_list.py
 
       - name: Build Docker image
         run: docker build -t remote-bot:latest .
