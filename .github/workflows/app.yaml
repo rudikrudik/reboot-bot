@@ -39,7 +39,7 @@ jobs:
       - name: Build Docker image
         run: |
           docker build --build-arg DECRYPT_PASSPHRASE=${{ secrets.DECRYPT_PASSPHRASE }} \
-          TOKEN=${{ secrets.TOKEN }}
+          TOKEN=${{ secrets.TOKEN }} \
           -t remote-bot:latest .
 
   deploy:
