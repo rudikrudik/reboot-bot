@@ -1,1 +1,0 @@
-"C:\Program Files (x86)\gnupg\bin\gpg.exe" --quiet --batch --yes --decrypt --passphrase="$LARGE_SECRET_PASSPHRASE" --output ip_list.py ip_list.py.gpg
