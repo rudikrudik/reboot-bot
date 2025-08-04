@@ -38,8 +38,8 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build --build-arg DECRYPT_PASSPHRASE=${{ secrets.DECRYPT_PASSPHRASE }} \
-          --build-arg TOKEN=${{ secrets.TOKEN }} \
+          docker build --build-arg DECRYPT_PASSPHRASE=${{ secrets.DECRYPT_PASSPHRASE }}
+          --build-arg TOKEN=${{ secrets.TOKEN }}
           -t remote-bot:latest .
 
   deploy:
