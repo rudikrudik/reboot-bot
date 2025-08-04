@@ -1,6 +1,8 @@
 FROM python:3.12-slim
 
 ARG DECRYPT_PASSPHRASE
+ARG TOKEN
+ENV TOKEN=$TOKEN
 
 # Set working directory
 WORKDIR /app

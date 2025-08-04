@@ -37,7 +37,10 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build Docker image
-        run: docker build --build-arg DECRYPT_PASSPHRASE=${{ secrets.DECRYPT_PASSPHRASE }} -t remote-bot:latest .
+        run: |
+          docker build --build-arg DECRYPT_PASSPHRASE=${{ secrets.DECRYPT_PASSPHRASE }} \
+          TOKEN=${{ secrets.TOKEN }}
+          -t remote-bot:latest .
 
   deploy:
     runs-on: self-hosted
