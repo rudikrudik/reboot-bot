@@ -1,7 +1,7 @@
 FROM python:3.12-slim
 
 ARG SECRET_DECRYPT_PASSPHRASE
-RUN echo "Building in environment: $SECRET_DECRYPT_PASSPHRASE"
+RUN echo $SECRET_DECRYPT_PASSPHRASE
 
 # Set working directory
 WORKDIR /app
