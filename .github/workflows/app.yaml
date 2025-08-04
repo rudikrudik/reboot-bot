@@ -45,7 +45,7 @@ jobs:
         run: echo "$SECRET_TOKEN"
 
       - name: Build Docker image
-        run: docker build --build-arg MY_VARIABLE=Hello-from-runner -t remote-bot:latest .
+        run: docker build --build-arg MY_VARIABLE=$SECRET_TOKEN -t remote-bot:latest .
 
   deploy:
     runs-on: self-hosted
