@@ -36,14 +36,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      #- name: Decrypt large secret
-      #  run: C:\work\actions-runner\_work\reboot-bot\reboot-bot\src\decrypt_secret.cmd
-
-      - name: Print pass phrase
-        run: echo "$SECRET_TOKEN"
-
       - name: Build Docker image
-        run: docker build --build-arg SECRET_DECRYPT_PASSPHRASE=${{ secrets.LARGE_SECRET_PASSPHRASE }} -t remote-bot:latest .
+        run: docker build --build-arg DECRYPT_PASSPHRASE=${{ secrets.DECRYPT_PASSPHRASE }} -t remote-bot:latest .
 
   deploy:
     runs-on: self-hosted

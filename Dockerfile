@@ -1,7 +1,6 @@
 FROM python:3.12-slim
 
-ARG SECRET_DECRYPT_PASSPHRASE
-RUN echo $SECRET_DECRYPT_PASSPHRASE
+ARG DECRYPT_PASSPHRASE
 
 # Set working directory
 WORKDIR /app
@@ -14,7 +13,7 @@ COPY /src /app
 # RUN apt-get update && apt-get install -y --no-install-recommends build-essential && rm -rf /var/lib/apt/lists/*
 #RUN pip install --no-cache-dir -r requirements.txt
 RUN apt-get update && apt-get install -y --no-install-recommends gnupg
-RUN gpg --quiet --batch --yes --decrypt --passphrase=$SECRET_DECRYPT_PASSPHRASE \
+RUN gpg --quiet --batch --yes --decrypt --passphrase=$DECRYPT_PASSPHRASE \
 --output /app/ip_list.py /app/ip_list.py.gpg
 
 # Run the application
