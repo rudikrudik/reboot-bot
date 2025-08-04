@@ -1,4 +1,4 @@
-import paramiko
+    import paramiko
 
 # Server details
 username = 'tc'
@@ -14,7 +14,6 @@ async def linux_pos(ip_host: str, command: str) -> str:
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         ssh.connect(hostname=ip_host, username=username, password=password, port=port)
         stdin, stdout, stderr =  ssh.exec_command(command)
-
         # Read the output
         output = stdout.read().decode('utf-8')
         error = stderr.read().decode('utf-8')
@@ -33,4 +32,3 @@ async def linux_pos(ip_host: str, command: str) -> str:
     finally:
         # Close the connection
         ssh.close()
-

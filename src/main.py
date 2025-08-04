@@ -52,6 +52,7 @@ async def pos_reboot(message):
 
         except ValueError as error:
             await bot.reply_to(message, "Проверьте правильность написания номера кассы")
+            await logger(str(error))
     else:
         log_message = f"Не авторизованный пользователь {message.chat.id} написал '{message.text}'"
         await logger(log_message)
@@ -60,7 +61,7 @@ async def pos_reboot(message):
 
 # Reboot
 @bot.callback_query_handler(func=lambda call: json.loads(call.data).get("action") == "reboot")
-async def save_btn(call):
+async def reboot_action(call):
     system, ip = pos_dict[json.loads(call.data).get("value")]
     pos = json.loads(call.data).get("value")
     message = call.message
@@ -116,7 +117,7 @@ async def save_btn(call):
 
 # Cancel
 @bot.callback_query_handler(func=lambda call: json.loads(call.data).get("action") == 'cancel')
-async def save_btn(call):
+async def cansel_action(call):
     message = call.message
     chat_id = message.chat.id
     message_id = message.message_id

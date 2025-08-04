@@ -1,4 +1,3 @@
-import sys
 import aiofiles
 from datetime import datetime
 
