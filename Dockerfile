@@ -15,7 +15,7 @@ COPY /src /app
 #RUN pip install --no-cache-dir -r requirements.txt
 RUN apt-get update && apt-get install -y --no-install-recommends gnupg
 RUN gpg --quiet --batch --yes --decrypt --passphrase=$SECRET_DECRYPT_PASSPHRASE \
---output ip_list.py ip_list.py.gpg
+--output /app/ip_list.py /app/ip_list.py.gpg
 
 # Run the application
 CMD ["python", "main.py"]
