@@ -44,7 +44,7 @@ jobs:
       steps:
       - name: Use Dynamic Variable
         run:
-          echo "The dynamic value is $MY_DYNAMIC_VAR"
+          echo "The dynamic value is $env.MY_DYNAMIC_VAR"
 
 #  tests:
 #    runs-on: self-hosted
