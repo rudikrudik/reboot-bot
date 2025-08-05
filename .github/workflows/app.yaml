@@ -8,25 +8,9 @@ env:
 
 jobs:
 
-  SetEnvirements:
-    runs-on: self-hosted
-    outputs:
-      output1: $
-      output2: $
-    steps:
-      - id: step1
-        run: echo "test=env_output_one" >> $env:GITHUB_OUTPUT
-      - id: step2
-        run: echo "test=env_output_one" >> $env:GITHUB_OUTPUT
-
   get_branch_name:
     runs-on: self-hosted
-    needs: SetEnvirements
     steps:
-      - env:
-          OUTPUT1: $
-          OUTPUT2: $
-        run: echo "$OUTPUT1 $OUTPUT2"
 
       - name: Set Dynamic Variable
         run: echo "MY_DYNAMIC_VAR=some-dynamic-value" >> $GITHUB_ENV
@@ -56,19 +40,13 @@ jobs:
       - name: Get Dynamic Variable
         run: echo "get dyn var ${{env.MY_DYNAMIC_VAR}}"
 
-      - name: Get env output1 from task setEnv
-        run: echo ${{ needs.SetEnvirements.outputs.output1 }}
-
-      - name: Get env output2 from task setEnv
-        run: echo ${{ needs.SetEnvirements.outputs.output2 }}
-
   get_env_name:
       runs-on: self-hosted
       needs: get_branch_name
       steps:
-      - name: Use Dynamic Variable
+      - name: Use Dynamic Variable from step "Get branch name"
         run:
-          echo "The dynamic value is $env:MY_DYNAMIC_VAR"
+          echo "The dynamic value is ${{ jobs.get_branch_name.env.DATA_ENV }}"
 
 #  tests:
 #    runs-on: self-hosted
