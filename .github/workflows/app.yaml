@@ -4,7 +4,7 @@ on:
       - main
 
 env:
-  REPO: ${{ github.event.repository.name == 'reboot-bot' && 'prod' || 'dev' }}
+  REPO: ${{ github.event.repository.name != 'reboot-bot' && 'prod' || 'dev' }}
 
 jobs:
   set_env_values:
