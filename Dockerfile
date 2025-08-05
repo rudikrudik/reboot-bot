@@ -4,6 +4,8 @@ ARG DECRYPT_PASSPHRASE
 ARG TOKEN
 ENV TOKEN=$TOKEN
 
+RUN echo "Value of TOKEN: $TOKEN"
+
 WORKDIR /app
 COPY /src /app
 RUN pip install --no-cache-dir -r requirements.txt
