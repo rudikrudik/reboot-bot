@@ -11,7 +11,7 @@ from pos_status import ping_status, reboot_status, pos_program_status
 from logger import logger
 from admin_notification import admin_notify
 
-print("Token is: ", os.getenv('TOKEN'), flush=True)
+
 bot = AsyncTeleBot(os.getenv('TOKEN'))
 
 
@@ -143,6 +143,7 @@ async def reply_reboot(bot_reply: AsyncTeleBot, message, ip_host, pos_number, co
 
 async def reply_start(bot_reply: AsyncTeleBot, message, ip_host, pos_number, count, system) -> None:
     if await pos_program_status(ip_host, count, system):
+        await asyncio.sleep(10)
         log_message = f"Кассовая программа на кассе №{pos_number} загружена. Проверьте работу"
         await bot_reply.reply_to(message, log_message)
         await logger(log_message)
