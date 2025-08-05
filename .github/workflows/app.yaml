@@ -3,54 +3,63 @@ on:
     branches:
       - main
 
-env:
-  DATA_ENV: temp_value
-
 jobs:
-
-  get_branch_name:
+  set_env_values:
     runs-on: self-hosted
     outputs:
-      my_output_variable: my_var_from_get_branch_name
+      branch_name: ${{ steps.set_branch_name_output.outputs.branch_name }} # main or developer
+      stage_tag: value_two # dev or prod
+      repo_name: value_three # docker image name
     steps:
-      - name: Set Dynamic Variable
-        run: echo "MY_DYNAMIC_VAR=some-dynamic-value" >> $env:GITHUB_ENV
-
-      - name: Print repo name if name "reboot-bot"
-        if: ${{ github.event.repository.name == 'reboot-bot' }}
-        run: echo "Hello from ${{ github.event.repository.name }}"
-
-      - name: Print branch name
-        run: echo "Branch name is ${{ github.ref_name}}"
-
-      - name: Print TEMP ENV value
-        if: ${{ github.ref_name == 'main' }}
-        env:
-          DATA_ENV: deploy
-        run: echo "Set target ${{ env.TEMP_ENV }}"
-
-      - name: Use DATA env
-        run: echo "The DATA environment is ${{ env.DATA_ENV }}"
-
-      - name: Use temp env
-        run: echo "temp env is ${{ env.TEMP_ENV }}"
-
-      - name: Set Dynamic Variable
-        run: echo "MY_DYNAMIC_VAR=some-dynamic-value" >> $env:GITHUB_ENV
-
-      - name: Get Dynamic Variable
-        run: echo "get dyn var ${{env.MY_DYNAMIC_VAR}}"
+      - name: Conditionally set output
+        id: set_branch_name_output
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "my_value=main" >> $GITHUB_OUTPUT
+          else
+            echo "my_value=developer" >> $GITHUB_OUTPUT
+          fi
 
   get_env_name:
-      runs-on: self-hosted
-      needs: get_branch_name
-      steps:
-        - env:
-            OUTPUT1: $
-          run: echo "${{env.OUTPUT1}}"
+    runs-on: self-hosted
+    needs: set_env_values
+    steps:
+      - name: Use Dynamic "my_output_variable" Variable from step "Get branch name"
+        run: echo "The value is ${{ needs.set_env_values.outputs.branch_name }}"
 
-        - name: Use Dynamic "my_output_variable" Variable from step "Get branch name"
-          run: echo "The value is ${{ needs.get_branch_name.outputs.my_output_variable }}"
+#  get_branch_name:
+#    runs-on: self-hosted
+#    outputs:
+#      my_output_variable: my_var_from_get_branch_name
+#    steps:
+#      - name: Set Dynamic Variable
+#        run: echo "MY_DYNAMIC_VAR=some-dynamic-value" >> $env:GITHUB_ENV
+#
+#      - name: Print repo name if name "reboot-bot"
+#        if: ${{ github.event.repository.name == 'reboot-bot' }}
+#        run: echo "Hello from ${{ github.event.repository.name }}"
+#
+#      - name: Print branch name
+#        run: echo "Branch name is ${{ github.ref_name}}"
+#
+#      - name: Print TEMP ENV value
+#        if: ${{ github.ref_name == 'main' }}
+#        env:
+#          DATA_ENV: deploy
+#        run: echo "Set target ${{ env.TEMP_ENV }}"
+#
+#      - name: Use DATA env
+#        run: echo "The DATA environment is ${{ env.DATA_ENV }}"
+#
+#      - name: Use temp env
+#        run: echo "temp env is ${{ env.TEMP_ENV }}"
+#
+#      - name: Set Dynamic Variable
+#        run: echo "MY_DYNAMIC_VAR=some-dynamic-value" >> $env:GITHUB_ENV
+#
+#      - name: Get Dynamic Variable
+#        run: echo "get dyn var ${{env.MY_DYNAMIC_VAR}}"
+
 
 #  tests:
 #    runs-on: self-hosted
