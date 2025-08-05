@@ -13,12 +13,7 @@ jobs:
 
       - name: Print branch name
         shell: pwsh
-        run: |
-          $branchName = $env:GITHUB_REF -replace 'refs/heads/', ''
-          Write-Host "Current branch name: $branchName"
-          echo "BRANCH_NAME=$branchName" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
-      - name: Use branch name in a subsequent step
-        run: echo "Branch name ${{ steps.get_branch_name.outputs.BRANCH_NAME }}"
+        run: echo "Branch name NONE"
 
 #  tests:
 #    runs-on: self-hosted
