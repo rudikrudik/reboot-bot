@@ -5,8 +5,7 @@ on:
 
 env:
   if: ${{ github.event.repository.name == 'reboot-bot' }}
-  run: echo "Hello from ${{ github.event.repository.name }}"
-  GLOBAL_VAR: 'GlobalValue' # This variable is available to all jobs and steps.
+  GLOBAL_VAR: true_data
 
 jobs:
   set_env_values:
@@ -32,7 +31,7 @@ jobs:
     needs: get_env_name
     steps:
       - name: Use Dynamic "my_output_variable" Variable from step "Get branch name"
-        run: echo "The value is ${{ needs.set_env_values.outputs.branch_name }}"
+        run: echo "The value is ${{ env.GLOBAL_VAR }}"
 
 #  get_branch_name:
 #    runs-on: self-hosted
