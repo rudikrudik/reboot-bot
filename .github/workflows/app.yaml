@@ -6,8 +6,8 @@ on:
 
 env:
   STAGE: ${{ github.ref_name == 'main' && 'prod' || 'dev' }}
-  TOKEN: ${{ secrets.TOKEN }}
-  TOKEN_DEV: ${{ secrets.TOKEN_DEV }}
+  STAGE_TOKEN: 123456
+  STAGE_TOKEN_DEV: qwerty
 
 jobs:
   tests:
@@ -43,7 +43,7 @@ jobs:
 
       - name: Choose Token
         env:
-          STAGE_TOKEN: ${{ env.STAGE == 'prod' && 'TOKEN' || 'TOKEN_DEV' }}
+          STAGE_TOKEN: ${{ env.STAGE == 'prod' && secrets.TOKEN || 'TOKEN_DEV' }}
         run: echo "Token selected ${{ env.STAGE_TOKEN }}"
 
       - name: Build Docker image
