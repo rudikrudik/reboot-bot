@@ -44,9 +44,9 @@ jobs:
       runs-on: self-hosted
       needs: get_branch_name
       steps:
-      - name: Use Dynamic Variable from step "Get branch name"
+      - name: Use Dynamic MY_DYNAMIC_VAR Variable from step "Get branch name"
         run:
-          echo "The dynamic value is ${{ env.DATA_ENV }}"
+          echo "The dynamic value is ${{ env.MY_DYNAMIC_VAR }}"
 
 #  tests:
 #    runs-on: self-hosted
