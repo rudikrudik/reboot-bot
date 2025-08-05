@@ -13,6 +13,9 @@ jobs:
       - name: Get var
         run: echo ${{ env.REPO }}
 
+      - name: Print branch name
+        run: echo "Branch name is ${{ github.ref_name}}"
+
   get_env_name:
     runs-on: self-hosted
     needs: set_env_values
