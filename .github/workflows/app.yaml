@@ -15,9 +15,9 @@ jobs:
       output2: $
     steps:
       - id: step1
-        run: echo "test=env_output_one" >> "$GITHUB_OUTPUT"
+        run: echo "test=env_output_one" >> "$env:GITHUB_OUTPUT"
       - id: step2
-        run: echo "test=env_output_one" >> "$GITHUB_OUTPUT"
+        run: echo "test=env_output_one" >> "$env:GITHUB_OUTPUT"
 
   get_branch_name:
     runs-on: self-hosted
