@@ -7,9 +7,11 @@ env:
   DATA_ENV: temp_value
 
 jobs:
-  get_branc_name:
+  get_branch_name:
     runs-on: self-hosted
     steps:
+      - name: Set Dynamic Variable
+        run: echo "MY_DYNAMIC_VAR=some-dynamic-value" >> $GITHUB_ENV
 
       - name: Print repo name if name "reboot-bot"
         if: ${{ github.event.repository.name == 'reboot-bot' }}
@@ -29,6 +31,17 @@ jobs:
 
       - name: Use temp env
         run: echo "temp env is ${{ env.TEMP_ENV }}"
+
+      - name: Set Dynamic Variable
+        run: echo "MY_DYNAMIC_VAR=some-dynamic-value" >> $GITHUB_ENV
+
+  get_env_name:
+      runs-on: self-hosted
+      needs: get_branch_name
+      steps:
+      - name: Use Dynamic Variable
+        run:
+          echo "The dynamic value is $MY_DYNAMIC_VAR"
 
 #  tests:
 #    runs-on: self-hosted
