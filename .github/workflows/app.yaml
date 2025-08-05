@@ -3,35 +3,29 @@ on:
     branches:
       - main
 
-env:
-  if: ${{ github.event.repository.name == 'reboot-bot' }}
-  GLOBAL_VAR: true_data
-
 jobs:
   set_env_values:
     runs-on: self-hosted
-    outputs:
-      branch_name: ${{ steps.set_branch_name_output.outputs.branch_name }} # main or developer
-      stage_tag: value_two # dev or prod
-      repo_name: value_three # docker image name
     steps:
-      - name: Conditionally set output
-        id: set_branch_name_output
-        run: echo "branch_name=main_env" >> $env:GITHUB_OUTPUT
+      - name: Set Dynamic Variable
+        run: echo "MY_DYNAMIC_VAR=some-dynamic-value" >> $env:GITHUB_ENV
+
+      - name: Get var
+        run: echo ${{ env.MY_DYNAMIC_VAR }}
 
   get_env_name:
     runs-on: self-hosted
     needs: set_env_values
     steps:
       - name: Use Dynamic "my_output_variable" Variable from step "Get branch name"
-        run: echo "The value is ${{ needs.set_env_values.outputs.branch_name }}"
+        run: echo "The value is ${{ env.MY_DYNAMIC_VAR }}"
 
   get_env_name_two:
     runs-on: self-hosted
     needs: get_env_name
     steps:
       - name: Use Dynamic "my_output_variable" Variable from step "Get branch name"
-        run: echo "The value is ${{ env.GLOBAL_VAR }}"
+        run: echo "The value is ${{ env.MY_DYNAMIC_VAR }}"
 
 #  get_branch_name:
 #    runs-on: self-hosted
