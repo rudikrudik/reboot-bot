@@ -15,7 +15,10 @@ jobs:
         if: ${{ github.ref_name == 'main'}}
         env:
           TEMP_ENV: deploy
-        run: echo ${{ TEMP_ENV }}
+        run: echo "Set target env"
+
+      - name: Use TEMP_ENV
+        run: echo "The target environment is ${{ env.TEMP_ENV }}"
 
 
 #  tests:
