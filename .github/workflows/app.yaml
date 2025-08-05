@@ -35,6 +35,9 @@ jobs:
       - name: Set Dynamic Variable
         run: echo "MY_DYNAMIC_VAR=some-dynamic-value" >> $GITHUB_ENV
 
+      - name: Get Dynamic Variable
+        run: echo "get dyn var ${{env.MY_DYNAMIC_VAR}}"
+
   get_env_name:
       runs-on: self-hosted
       needs: get_branch_name
