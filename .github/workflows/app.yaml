@@ -49,7 +49,7 @@ jobs:
       steps:
         - env:
             OUTPUT1: $
-          run: echo "${{OUTPUT1}}"
+          run: echo "${{env.OUTPUT1}}"
 
         - name: Use Dynamic MY_DYNAMIC_VAR Variable from step "Get branch name"
           run: echo "The dynamic value is ${{ env.MY_DYNAMIC_VAR }}"
