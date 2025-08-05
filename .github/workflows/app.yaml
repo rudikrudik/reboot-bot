@@ -14,7 +14,7 @@ jobs:
       - name: Print branch name
         if: ${{ github.ref_name == 'main'}}
         env:
-          TEMP_ENV: "deploy"
+          TEMP_ENV: deploy
         run: echo ${{ TEMP_ENV }}
 
 
