@@ -33,7 +33,7 @@ jobs:
         run: echo "temp env is ${{ env.TEMP_ENV }}"
 
       - name: Set Dynamic Variable
-        run: echo "MY_DYNAMIC_VAR=some-dynamic-value" >> $GITHUB_ENV
+        run: echo "MY_DYNAMIC_VAR=some-dynamic-value" >> $env:GITHUB_ENV
 
       - name: Get Dynamic Variable
         run: echo "get dyn var ${{env.MY_DYNAMIC_VAR}}"
