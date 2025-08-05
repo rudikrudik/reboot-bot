@@ -46,7 +46,7 @@ jobs:
       steps:
       - name: Use Dynamic Variable from step "Get branch name"
         run:
-          echo "The dynamic value is ${{ jobs.get_branch_name.env.DATA_ENV }}"
+          echo "The dynamic value is ${{ env.DATA_ENV }}"
 
 #  tests:
 #    runs-on: self-hosted
