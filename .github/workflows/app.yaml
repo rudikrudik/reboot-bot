@@ -12,8 +12,7 @@ jobs:
         run: echo "Hello from ${{ github.event.repository.name }}"
 
       - name: Print branch name
-        shell: pwsh
-        run: echo "Branch name NONE"
+        run: echo "Branch name ${{ github.ref_name }}"
 
 #  tests:
 #    runs-on: self-hosted
