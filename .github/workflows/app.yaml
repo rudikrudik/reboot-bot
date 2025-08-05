@@ -41,12 +41,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Choose Token
+      - name: Build Docker image
         env:
           TOKEN: ${{ env.STAGE == 'prod' && env.STAGE_TOKEN || env.STAGE_TOKEN_DEV }}
-        run: echo "Token selected ${{ env.TOKEN }}"
-
-      - name: Build Docker image
         run: docker build --build-arg DECRYPT_PASSPHRASE=${{ secrets.DECRYPT_PASSPHRASE }} --build-arg TOKEN=${{ env.TOKEN }} -t ${{ github.event.repository.name }}-${{ env.STAGE }}:latest .
 
   deploy:
