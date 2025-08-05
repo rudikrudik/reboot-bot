@@ -20,6 +20,11 @@ jobs:
       - name: Print docker image name
         run: echo "Docker image is ${{ github.event.repository.name }}-${{ env.STAGE }}"
 
+      - name: Get token
+        env:
+          STAGE_TOKEN: ${{ env.STAGE == 'prod' && 'TOKEN' || 'TOKEN_DEV' }}
+        run: echo "Token selected ${{ env.STAGE_TOKEN }}"
+
 #  get_branch_name:
 #    runs-on: self-hosted
 #    outputs:
