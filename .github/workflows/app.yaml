@@ -23,6 +23,11 @@ jobs:
     runs-on: self-hosted
     needs: SetEnvirements
     steps:
+      - env:
+          OUTPUT1: $
+          OUTPUT2: $
+        run: echo "$OUTPUT1 $OUTPUT2"
+
       - name: Set Dynamic Variable
         run: echo "MY_DYNAMIC_VAR=some-dynamic-value" >> $GITHUB_ENV
 
