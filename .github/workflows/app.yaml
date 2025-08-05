@@ -1,50 +1,59 @@
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
-
-  tests:
+  get_branc_name:
     runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.10"
-      - name: Run unit tests
-        run: python -m unittest tests/tests.py
+      - name: Print repo name
+        if: ${{ github.event.repository.name == 'reboot-bot' }}
+        run: echo "Hello from ${{ github.event.repository.name }}"
 
-  linter:
-    runs-on: self-hosted
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.10"
-      - name: Install dependencies
-        run: pip install flake8
-      - name: Run Flake8
-        run: flake8 ./src --max-line-length=120
+      - name: Print branch name
+        run: echo ${{GITHUB_REF#refs/heads/}}
 
-  build:
-    runs-on: self-hosted
-    needs: tests
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+#  tests:
+#    runs-on: self-hosted
+#    steps:
+#      - uses: actions/checkout@v4
+#      - name: Set up Python
+#        uses: actions/setup-python@v5
+#        with:
+#          python-version: "3.10"
+#      - name: Run unit tests
+#        run: python -m unittest tests/tests.py
+#
+#  linter:
+#    runs-on: self-hosted
+#    steps:
+#      - uses: actions/checkout@v4
+#      - name: Set up Python
+#        uses: actions/setup-python@v5
+#        with:
+#          python-version: "3.10"
+#      - name: Install dependencies
+#        run: pip install flake8
+#      - name: Run Flake8
+#        run: flake8 ./src --max-line-length=120
 
-      - name: Build Docker image
-        run: docker build --build-arg DECRYPT_PASSPHRASE=${{ secrets.DECRYPT_PASSPHRASE }} --build-arg TOKEN=${{ secrets.TOKEN }} -t ${{ github.event.repository.name }}:latest .
-
-  deploy:
-    runs-on: self-hosted
-    needs: build
-    steps:
-      - name: Remove old container
-        run: docker rm -f ${{ github.event.repository.name }}
-
-      - name: Run a command inside the container
-        run: docker run -d --name ${{ github.event.repository.name }} ${{ github.event.repository.name }}:latest
+#  build:
+#    runs-on: self-hosted
+#    needs: tests
+#    steps:
+#      - name: Checkout repository
+#        uses: actions/checkout@v4
+#
+#      - name: Build Docker image
+#        run: docker build --build-arg DECRYPT_PASSPHRASE=${{ secrets.DECRYPT_PASSPHRASE }} --build-arg TOKEN=${{ secrets.TOKEN }} -t ${{ github.event.repository.name }}:latest .
+#
+#  deploy:
+#    runs-on: self-hosted
+#    needs: build
+#    steps:
+#      - name: Remove old container
+#        run: docker rm -f ${{ github.event.repository.name }}
+#
+#      - name: Run a command inside the container
+#        run: docker run -d --name ${{ github.event.repository.name }} ${{ github.event.repository.name }}:latest
