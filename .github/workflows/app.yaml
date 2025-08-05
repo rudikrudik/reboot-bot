@@ -12,7 +12,11 @@ jobs:
         run: echo "Hello from ${{ github.event.repository.name }}"
 
       - name: Print branch name
-        run: echo "Branch name ${{ github.ref_name }}"
+        if: ${{ github.ref_name == 'main'}}
+        env:
+          TEMP_ENV: "deploy"
+        run: echo ${{ TEMP_ENV }}
+
 
 #  tests:
 #    runs-on: self-hosted
