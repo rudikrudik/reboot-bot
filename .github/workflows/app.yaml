@@ -2,9 +2,10 @@ on:
   push:
     branches:
       - main
+      - develop
 
 env:
-  REPO: ${{ github.ref_name == 'main' && 'prod' || 'dev' }}
+  STAGE: ${{ github.ref_name == 'main' && 'prod' || 'dev' }}
 
 jobs:
   set_env_values:
@@ -16,19 +17,8 @@ jobs:
       - name: Print branch name
         run: echo "Branch name is ${{ github.ref_name}}"
 
-  get_env_name:
-    runs-on: self-hosted
-    needs: set_env_values
-    steps:
-      - name: Use Dynamic "my_output_variable" Variable from step "Get branch name"
-        run: echo "The value is ${{ env.MY_DYNAMIC_VAR }}"
-
-  get_env_name_two:
-    runs-on: self-hosted
-    needs: get_env_name
-    steps:
-      - name: Use Dynamic "my_output_variable" Variable from step "Get branch name"
-        run: echo "The value is ${{ env.MY_DYNAMIC_VAR }}"
+      - name: Print docker image name
+        run: echo "Docker image is ${{ github.event.repository.name }}-${{ env.STAGE }}"
 
 #  get_branch_name:
 #    runs-on: self-hosted
