@@ -10,10 +10,13 @@ jobs:
 
   get_branch_name:
     runs-on: self-hosted
+    outputs:
+      output1: $
+
     steps:
 
       - name: Set Dynamic Variable
-        run: echo "MY_DYNAMIC_VAR=some-dynamic-value" >> $GITHUB_ENV
+        run: echo "MY_DYNAMIC_VAR=some-dynamic-value" >> $env:GITHUB_ENV
 
       - name: Print repo name if name "reboot-bot"
         if: ${{ github.event.repository.name == 'reboot-bot' }}
@@ -44,9 +47,12 @@ jobs:
       runs-on: self-hosted
       needs: get_branch_name
       steps:
-      - name: Use Dynamic MY_DYNAMIC_VAR Variable from step "Get branch name"
-        run:
-          echo "The dynamic value is ${{ env.MY_DYNAMIC_VAR }}"
+        - env:
+            OUTPUT1: $
+          run: echo "$OUTPUT1"
+
+        - name: Use Dynamic MY_DYNAMIC_VAR Variable from step "Get branch name"
+          run: echo "The dynamic value is ${{ env.MY_DYNAMIC_VAR }}"
 
 #  tests:
 #    runs-on: self-hosted
