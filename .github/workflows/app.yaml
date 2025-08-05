@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Conditionally set output
         id: set_branch_name_output
-        run: echo "branch_name=main_env" >> $GITHUB_OUTPUT
+        run: echo "branch_name=main_env" >> $env:GITHUB_OUTPUT
 
   get_env_name:
     runs-on: self-hosted
