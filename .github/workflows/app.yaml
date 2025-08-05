@@ -3,12 +3,12 @@ on:
     branches:
       - main
 
+env:
+  DATA_ENV: temp_value
+
 jobs:
   get_branc_name:
     runs-on: self-hosted
-    env:
-      DATA_ENV: temp_value
-
     steps:
 
       - name: Print repo name
