@@ -14,7 +14,7 @@ jobs:
       - name: Conditionally set output
         id: set_branch_name_output
         run: |
-          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+          if ([[ "${{ github.ref }}" == "refs/heads/main" ]]); then
             echo "my_value=main" >> $GITHUB_OUTPUT
           else
             echo "my_value=developer" >> $GITHUB_OUTPUT
@@ -23,6 +23,13 @@ jobs:
   get_env_name:
     runs-on: self-hosted
     needs: set_env_values
+    steps:
+      - name: Use Dynamic "my_output_variable" Variable from step "Get branch name"
+        run: echo "The value is ${{ needs.set_env_values.outputs.branch_name }}"
+
+  get_env_name_two:
+    runs-on: self-hosted
+    needs: get_env_name
     steps:
       - name: Use Dynamic "my_output_variable" Variable from step "Get branch name"
         run: echo "The value is ${{ needs.set_env_values.outputs.branch_name }}"
