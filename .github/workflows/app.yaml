@@ -6,6 +6,8 @@ on:
 jobs:
   get_branc_name:
     runs-on: self-hosted
+    env:
+      DATA: temp
     steps:
       - name: Print repo name
         if: ${{ github.event.repository.name == 'reboot-bot' }}
@@ -20,8 +22,8 @@ jobs:
           TEMP_ENV: deploy
         run: echo "Set target env"
 
-      - name: Use TEMP_ENV
-        run: echo "The target environment is $TEMP_ENV"
+      - name: Use DATA env
+        run: echo "The DATA environment is ${{ env.TEMP }}"
 
 
 #  tests:
