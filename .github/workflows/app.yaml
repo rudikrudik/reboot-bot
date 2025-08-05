@@ -11,10 +11,8 @@ jobs:
   get_branch_name:
     runs-on: self-hosted
     outputs:
-      output1: $
-
+      my_output_variable: my_var_from_get_branch_name
     steps:
-
       - name: Set Dynamic Variable
         run: echo "MY_DYNAMIC_VAR=some-dynamic-value" >> $env:GITHUB_ENV
 
@@ -51,8 +49,8 @@ jobs:
             OUTPUT1: $
           run: echo "${{env.OUTPUT1}}"
 
-        - name: Use Dynamic MY_DYNAMIC_VAR Variable from step "Get branch name"
-          run: echo "The dynamic value is ${{ env.MY_DYNAMIC_VAR }}"
+        - name: Use Dynamic "my_output_variable" Variable from step "Get branch name"
+          run: echo "The value is ${{ needs.get_branch_name.outputs.my_output_variable }}"
 
 #  tests:
 #    runs-on: self-hosted
