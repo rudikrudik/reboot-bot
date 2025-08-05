@@ -28,13 +28,13 @@ jobs:
         run: echo "The DATA environment is ${{ env.DATA_ENV }}"
 
       - name: Use data env not "{{env.}}"
-        run: echo "The DATA environment is ${{ DATA_ENV }}"
+        run: echo "The DATA environment is ${{ env.DATA_ENV }}"
 
       - name: Use temp env
         run: echo "temp env is ${{ env.TEMP_ENV }}"
 
       - name: Use temp env no "{{env}}"
-        run: echo "temp env is ${{ TEMP_ENV }}"
+        run: echo "temp env is ${{ env.TEMP_ENV }}"
 
       - name: Use data env
         run: echo $DATA_ENV
