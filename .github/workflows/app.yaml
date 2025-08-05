@@ -51,6 +51,12 @@ jobs:
       - name: Get Dynamic Variable
         run: echo "get dyn var ${{env.MY_DYNAMIC_VAR}}"
 
+      - name: Get env output1 from task setEnv
+        run: echo ${{ needs.SetEnvirements.outputs.output1 }}
+
+      - name: Get env output2 from task setEnv
+        run: echo ${{ needs.SetEnvirements.outputs.output2 }}
+
   get_env_name:
       runs-on: self-hosted
       needs: get_branch_name
@@ -58,12 +64,6 @@ jobs:
       - name: Use Dynamic Variable
         run:
           echo "The dynamic value is $env:MY_DYNAMIC_VAR"
-
-      - name: Get env output1 from task setEnv
-        run: echo ${{ needs.SetEnvirements.outputs.output1 }}
-
-      - name: Get env output2 from task setEnv
-        run: echo ${{ needs.SetEnvirements.outputs.output2 }}
 
 #  tests:
 #    runs-on: self-hosted
