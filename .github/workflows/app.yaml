@@ -21,7 +21,7 @@ jobs:
         run: echo "Set target env"
 
       - name: Use TEMP_ENV
-        run: echo "The target environment is ${{ env.TEMP_ENV }}"
+        run: echo "The target environment is $TEMP_ENV"
 
 
 #  tests:
