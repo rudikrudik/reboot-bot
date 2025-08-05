@@ -7,7 +7,7 @@ jobs:
   set_env_values:
     runs-on: self-hosted
     steps:
-      - name: Set Dynamic Variable
+      - name: Set var
         run: echo "MY_DYNAMIC_VAR=some-dynamic-value" >> $env:GITHUB_ENV
 
       - name: Get var
