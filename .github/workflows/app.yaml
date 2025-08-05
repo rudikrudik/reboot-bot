@@ -6,99 +6,55 @@ on:
 
 env:
   STAGE: ${{ github.ref_name == 'main' && 'prod' || 'dev' }}
+  TOKEN: ${{ secrets.TOKEN }}
+  TOKEN_DEV: ${{ secrets.TOKEN_DEV }}
 
 jobs:
-  set_env_values:
+  tests:
     runs-on: self-hosted
     steps:
-      - name: Get var
-        run: echo ${{ env.STAGE }}
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Run unit tests
+        run: python -m unittest tests/tests.py
 
-      - name: Print branch name
-        run: echo "Branch name is ${{ github.ref_name}}"
+  linter:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Install dependencies
+        run: pip install flake8
+      - name: Run Flake8
+        run: flake8 ./src --max-line-length=120
 
-      - name: Print docker image name
-        run: echo "Docker image is ${{ github.event.repository.name }}-${{ env.STAGE }}"
+  build:
+    runs-on: self-hosted
+    needs: tests
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Get token
+      - name: Choose Token
         env:
           STAGE_TOKEN: ${{ env.STAGE == 'prod' && 'TOKEN' || 'TOKEN_DEV' }}
         run: echo "Token selected ${{ env.STAGE_TOKEN }}"
 
-#  get_branch_name:
-#    runs-on: self-hosted
-#    outputs:
-#      my_output_variable: my_var_from_get_branch_name
-#    steps:
-#      - name: Set Dynamic Variable
-#        run: echo "MY_DYNAMIC_VAR=some-dynamic-value" >> $env:GITHUB_ENV
-#
-#      - name: Print repo name if name "reboot-bot"
-#        if: ${{ github.event.repository.name == 'reboot-bot' }}
-#        run: echo "Hello from ${{ github.event.repository.name }}"
-#
-#      - name: Print branch name
-#        run: echo "Branch name is ${{ github.ref_name}}"
-#
-#      - name: Print TEMP ENV value
-#        if: ${{ github.ref_name == 'main' }}
-#        env:
-#          DATA_ENV: deploy
-#        run: echo "Set target ${{ env.TEMP_ENV }}"
-#
-#      - name: Use DATA env
-#        run: echo "The DATA environment is ${{ env.DATA_ENV }}"
-#
-#      - name: Use temp env
-#        run: echo "temp env is ${{ env.TEMP_ENV }}"
-#
-#      - name: Set Dynamic Variable
-#        run: echo "MY_DYNAMIC_VAR=some-dynamic-value" >> $env:GITHUB_ENV
-#
-#      - name: Get Dynamic Variable
-#        run: echo "get dyn var ${{env.MY_DYNAMIC_VAR}}"
+      - name: Build Docker image
+        run: docker build --build-arg DECRYPT_PASSPHRASE=${{ secrets.DECRYPT_PASSPHRASE }} --build-arg TOKEN=${{ env.STAGE_TOKEN }} -t ${{ github.event.repository.name }}-${{ env.STAGE }}:latest .
 
+  deploy:
+    runs-on: self-hosted
+    needs: build
+    steps:
+      - name: Remove old container
+        run: docker rm -f ${{ github.event.repository.name }}-${{ env.STAGE }}
 
-#  tests:
-#    runs-on: self-hosted
-#    steps:
-#      - uses: actions/checkout@v4
-#      - name: Set up Python
-#        uses: actions/setup-python@v5
-#        with:
-#          python-version: "3.10"
-#      - name: Run unit tests
-#        run: python -m unittest tests/tests.py
-#
-#  linter:
-#    runs-on: self-hosted
-#    steps:
-#      - uses: actions/checkout@v4
-#      - name: Set up Python
-#        uses: actions/setup-python@v5
-#        with:
-#          python-version: "3.10"
-#      - name: Install dependencies
-#        run: pip install flake8
-#      - name: Run Flake8
-#        run: flake8 ./src --max-line-length=120
-
-#  build:
-#    runs-on: self-hosted
-#    needs: tests
-#    steps:
-#      - name: Checkout repository
-#        uses: actions/checkout@v4
-#
-#      - name: Build Docker image
-#        run: docker build --build-arg DECRYPT_PASSPHRASE=${{ secrets.DECRYPT_PASSPHRASE }} --build-arg TOKEN=${{ secrets.TOKEN }} -t ${{ github.event.repository.name }}:latest .
-#
-#  deploy:
-#    runs-on: self-hosted
-#    needs: build
-#    steps:
-#      - name: Remove old container
-#        run: docker rm -f ${{ github.event.repository.name }}
-#
-#      - name: Run a command inside the container
-#        run: docker run -d --name ${{ github.event.repository.name }} ${{ github.event.repository.name }}:latest
+      - name: Run a command inside the container
+        run: docker run -d --name ${{ github.event.repository.name }}-${{ env.STAGE }} ${{ github.event.repository.name }}-${{ env.STAGE }}:latest

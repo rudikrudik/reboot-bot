@@ -11,7 +11,7 @@ from pos_status import ping_status, reboot_status, pos_program_status
 from logger import logger
 from admin_notification import admin_notify
 
-
+print("Token is: ", os.getenv('TOKEN'), flush=True)
 bot = AsyncTeleBot(os.getenv('TOKEN'))
 
 
