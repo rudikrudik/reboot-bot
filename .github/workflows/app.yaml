@@ -21,7 +21,7 @@ jobs:
       - name: Print TEMP ENV value
         if: ${{ github.ref_name == 'main' }}
         env:
-          TEMP_ENV: deploy
+          DATA_ENV: deploy
         run: echo "Set target ${{ env.TEMP_ENV }}"
 
       - name: Use DATA env
