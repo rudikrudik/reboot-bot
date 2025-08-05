@@ -3,15 +3,15 @@ on:
     branches:
       - main
 
+env:
+  REPO: ${{ github.event.repository.name == 'reboot-bot' && 'prod' || 'dev' }}
+
 jobs:
   set_env_values:
     runs-on: self-hosted
     steps:
-      - name: Set var
-        run: echo "MY_DYNAMIC_VAR=some-dynamic-value" >> $env:GITHUB_ENV
-
       - name: Get var
-        run: echo ${{ env.MY_DYNAMIC_VAR }}
+        run: echo ${{ env.REPO }}
 
   get_env_name:
     runs-on: self-hosted
