@@ -23,8 +23,16 @@ jobs:
         run: echo "Set target env"
 
       - name: Use DATA env
-        run: echo "The DATA environment is ${{ env.TEMP }}"
+        run: echo "The DATA environment is ${{ env.DATA }}"
 
+      - name: Use data env not "{{env.}}"
+        run: echo "The DATA environment is ${{ DATA }}"
+
+      - name: Use temp env
+        run: echo "temp env is ${{ env.TEMP_ENV }}"
+
+      - name: Use temp env no "{{env}}"
+        run: echo "temp env is ${{ TEMP_ENV }}"
 
 #  tests:
 #    runs-on: self-hosted
