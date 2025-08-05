@@ -3,6 +3,11 @@ on:
     branches:
       - main
 
+env:
+  if: ${{ github.event.repository.name == 'reboot-bot' }}
+  run: echo "Hello from ${{ github.event.repository.name }}"
+  GLOBAL_VAR: 'GlobalValue' # This variable is available to all jobs and steps.
+
 jobs:
   set_env_values:
     runs-on: self-hosted
