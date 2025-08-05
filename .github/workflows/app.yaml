@@ -7,6 +7,18 @@ env:
   DATA_ENV: temp_value
 
 jobs:
+
+  SetEnvirements:
+    runs-on: self-hosted
+    outputs:
+      output1: $
+      output2: $
+    steps:
+      - id: step1
+        run: echo "test=env_output_one" >> "$GITHUB_OUTPUT"
+      - id: step2
+        run: echo "test=env_output_one" >> "$GITHUB_OUTPUT"
+
   get_branch_name:
     runs-on: self-hosted
     steps:
@@ -45,6 +57,12 @@ jobs:
       - name: Use Dynamic Variable
         run:
           echo "The dynamic value is $env:MY_DYNAMIC_VAR"
+
+      - name: Get env output1 from task setEnv
+        run: echo ${{ needs.SetEnvirements.outputs.output1 }}
+
+      - name: Get env output2 from task setEnv
+        run: echo ${{ needs.SetEnvirements.outputs.output2 }}
 
 #  tests:
 #    runs-on: self-hosted
