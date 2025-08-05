@@ -13,12 +13,7 @@ jobs:
     steps:
       - name: Conditionally set output
         id: set_branch_name_output
-        run: |
-          if ([[ "${{ github.ref }}" == "refs/heads/main" ]]); then
-            echo "my_value=main" >> $GITHUB_OUTPUT
-          else
-            echo "my_value=developer" >> $GITHUB_OUTPUT
-          fi
+        run: echo "branch_name=main_env" >> $GITHUB_OUTPUT
 
   get_env_name:
     runs-on: self-hosted
