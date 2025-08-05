@@ -11,33 +11,24 @@ jobs:
     runs-on: self-hosted
     steps:
 
-      - name: Print repo name
+      - name: Print repo name if name "reboot-bot"
         if: ${{ github.event.repository.name == 'reboot-bot' }}
         run: echo "Hello from ${{ github.event.repository.name }}"
 
       - name: Print branch name
         run: echo "Branch name is ${{ github.ref_name}}"
 
-      - name: Print branch name
+      - name: Print TEMP ENV value
         if: ${{ github.ref_name == 'main' }}
         env:
           TEMP_ENV: deploy
-        run: echo "Set target env"
+        run: echo "Set target ${{ env.TEMP_ENV }}"
 
       - name: Use DATA env
         run: echo "The DATA environment is ${{ env.DATA_ENV }}"
 
-      - name: Use data env not "{{env.}}"
-        run: echo "The DATA environment is ${{ env.DATA_ENV }}"
-
       - name: Use temp env
         run: echo "temp env is ${{ env.TEMP_ENV }}"
-
-      - name: Use temp env no "{{env}}"
-        run: echo "temp env is ${{ env.TEMP_ENV }}"
-
-      - name: Use data env
-        run: echo $DATA_ENV
 
 #  tests:
 #    runs-on: self-hosted
