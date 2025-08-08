@@ -163,7 +163,10 @@ async def dev_task() -> None:
 
 
 async def main(stage: str):
+    print("From main stage type: ", type(stage), flush=True)
+
     if stage == "main":
+        print("Main stage", stage)
         await logger(f"Start {stage} program")
         await bot.infinity_polling()
     else:
