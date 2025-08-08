@@ -6,8 +6,6 @@ on:
 
 env:
   STAGE: ${{ github.ref_name == 'main' && 'prod' || 'dev' }}
-  STAGE_TOKEN: 123456
-  STAGE_TOKEN_DEV: qwerty
 
 jobs:
   tests:
@@ -44,7 +42,7 @@ jobs:
       - name: Build Docker image
         env:
           TOKEN: ${{ env.STAGE == 'prod' && secrets.TOKEN || secrets.TOKEN_DEV }}
-        run: docker build --build-arg DECRYPT_PASSPHRASE=${{ secrets.DECRYPT_PASSPHRASE }} --build-arg TOKEN=${{ env.TOKEN }} -t ${{ github.event.repository.name }}-${{ env.STAGE }}:latest .
+        run: docker build --build-arg DECRYPT_PASSPHRASE=${{ secrets.DECRYPT_PASSPHRASE }} --build-arg TOKEN=${{ env.TOKEN }} --build-arg STAGE=${{ env.STAGE }} -t ${{ github.event.repository.name }}-${{ env.STAGE }}:latest .
 
   deploy:
     runs-on: self-hosted

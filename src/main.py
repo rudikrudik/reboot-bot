@@ -156,9 +156,19 @@ async def reply_start(bot_reply: AsyncTeleBot, message, ip_host, pos_number, cou
 
 
 async def main():
-    await logger("Start program")
+    await logger(f"Start {os.getenv('STAGE')} program")
+    await bot.infinity_polling()
+
+
+async def dev():
+    await logger(f"Start {os.getenv('STAGE')} program")
     await bot.infinity_polling()
 
 
 if __name__ == '__main__':
-    asyncio.run(main())
+    if os.getenv("STAGE") == "main":
+        asyncio.run(main())
+    else:
+        asyncio.run(dev())
+
+
