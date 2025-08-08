@@ -12,6 +12,7 @@ from logger import logger
 from admin_notification import admin_notify
 
 print("Token is: ", os.getenv('TOKEN'), flush=True)
+print("Stage is: ", os.getenv('STAGE'), flush=True)
 bot = AsyncTeleBot(os.getenv('TOKEN'))
 
 
