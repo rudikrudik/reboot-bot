@@ -156,10 +156,19 @@ async def reply_start(bot_reply: AsyncTeleBot, message, ip_host, pos_number, cou
         await admin_notify(bot, log_message)
 
 
-async def main(stage: str):
-    await logger(f"Start {stage} program")
-    await bot.infinity_polling()
+async def dev_task() -> None:
+    while True:
+        print("dev env task")
+        await asyncio.sleep(10)
 
+
+async def main(stage: str):
+    if stage == "main":
+        await logger(f"Start {stage} program")
+        await bot.infinity_polling()
+    else:
+        print(await logger(f"Start {stage} program"))
+        await dev_task()
 
 if __name__ == '__main__':
     asyncio.run(main(os.getenv("STAGE")))
