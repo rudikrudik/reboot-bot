@@ -127,6 +127,7 @@ async def cansel_action(call):
 
 async def reply_reboot(bot_reply: AsyncTeleBot, message, ip_host, pos_number, count) -> bool:
     if await reboot_status(ip_host, count):
+        await asyncio.sleep(20)
         log_message = f"Касса {pos_number} перезагружена. Загружается кассовая программа"
         await bot_reply.reply_to(message, log_message)
         await logger(log_message)
