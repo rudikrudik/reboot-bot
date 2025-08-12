@@ -157,7 +157,7 @@ async def reply_start(bot_reply: AsyncTeleBot, message, ip_host, pos_number, cou
 
 
 async def main():
-    await logger("Start program")
+    await logger(f"Start program on {os.getenv('STAGE')}")
     await bot.infinity_polling()
 
 
