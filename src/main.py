@@ -80,9 +80,10 @@ async def reboot_action(call):
 
         if await ping_status(ip, 200):
             log_message = f"Статус перезагрузки: касса {pos} Перезагружается"
-            await logger(log_message)
-            await admin_notify(bot, log_message)
-            await bot.reply_to(message, log_message)
+            await send_helper(bot, message, log_message)
+            # await logger(log_message)
+            # await admin_notify(bot, log_message)
+            # await bot.reply_to(message, log_message)
 
             await asyncio.sleep(1)
             result_reboot = await reply_reboot(bot, message, ip, pos, 100)
@@ -91,18 +92,20 @@ async def reboot_action(call):
                 await reply_start(bot, message, ip, pos, 100, "linux")
         else:
             log_message = f"Ошибка. Касса {pos} не перезагружена."
-            await bot.reply_to(message, log_message)
-            await logger(log_message)
-            await admin_notify(bot, log_message)
+            await send_helper(bot, message, log_message)
+            # await bot.reply_to(message, log_message)
+            # await logger(log_message)
+            # await admin_notify(bot, log_message)
 
     if system == "windows":
         await windows_pos(ip, "shutdown", "/r /f /t 5")
 
         if await ping_status(ip, 200):
             log_message = f"Статус перезагрузки: касса {pos} Перезагружается"
-            await logger(log_message)
-            await admin_notify(bot, log_message)
-            await bot.reply_to(message, log_message)
+            await send_helper(bot, message, log_message)
+            # await logger(log_message)
+            # await admin_notify(bot, log_message)
+            # await bot.reply_to(message, log_message)
 
             await asyncio.sleep(1)
             result_reboot = await reply_reboot(bot, message, ip, pos, 100)
@@ -111,9 +114,10 @@ async def reboot_action(call):
                 await reply_start(bot, message, ip, pos, 100, "windows")
         else:
             log_message = f"Ошибка. Касса {pos} не перезагружена."
-            await bot.reply_to(message, log_message)
-            await logger(log_message)
-            await admin_notify(bot, log_message)
+            await send_helper(bot, message, log_message)
+            # await bot.reply_to(message, log_message)
+            # await logger(log_message)
+            # await admin_notify(bot, log_message)
 
 
 # Cancel command
@@ -136,9 +140,10 @@ async def reply_reboot(bot_reply: AsyncTeleBot, message, ip_host, pos_number, co
         log_message = f"Ошибка, касса №{pos_number} не загрузилась"
         flag = False
 
-    await bot_reply.reply_to(message, log_message)
-    await logger(log_message)
-    await admin_notify(bot, log_message)
+    await send_helper(bot, message, log_message)
+    # await bot_reply.reply_to(message, log_message)
+    # await logger(log_message)
+    # await admin_notify(bot, log_message)
 
     return flag
 
@@ -159,11 +164,10 @@ async def reply_start(bot_reply: AsyncTeleBot, message, ip_host, pos_number, cou
     # await admin_notify(bot, log_message)
 
 
-async def send_helper(bot: AsyncTeleBot, reply_message, log_message) -> None:
-    await bot.reply_to(reply_message, log_message)
+async def send_helper(bot: AsyncTeleBot, message, log_message) -> None:
+    await bot.reply_to(message, log_message)
     await logger(log_message)
     await admin_notify(bot, log_message)
-
 
 
 async def main():
