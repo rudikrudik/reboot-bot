@@ -1,11 +1,10 @@
 import paramiko
+from kasse import linux_credentials
 
 # Server details
-username = 'tc'
-password = '324012'
-port = 22
-command_reboot = "/usr/bin/sudo /sbin/reboot"
-command_get_started_process = "/usr/local/bin/cash status"
+username = linux_credentials["login"]
+password = linux_credentials["password"]
+port = linux_credentials["port"]
 
 
 async def linux_pos(ip_host: str, command: str) -> str:

@@ -60,7 +60,7 @@ async def pos_reboot(message):
         await admin_notify(bot, log_message)
 
 
-# Reboot
+# Reboot apply
 @bot.callback_query_handler(func=lambda call: json.loads(call.data).get("action") == "reboot")
 async def reboot_action(call):
     system, ip = pos_dict[json.loads(call.data).get("value")]
@@ -81,10 +81,6 @@ async def reboot_action(call):
         if await ping_status(ip, 200):
             log_message = f"Статус перезагрузки: касса {pos} Перезагружается"
             await send_helper(bot, message, log_message)
-            # await logger(log_message)
-            # await admin_notify(bot, log_message)
-            # await bot.reply_to(message, log_message)
-
             await asyncio.sleep(1)
             result_reboot = await reply_reboot(bot, message, ip, pos, 100)
             if result_reboot:
@@ -93,9 +89,6 @@ async def reboot_action(call):
         else:
             log_message = f"Ошибка. Касса {pos} не перезагружена."
             await send_helper(bot, message, log_message)
-            # await bot.reply_to(message, log_message)
-            # await logger(log_message)
-            # await admin_notify(bot, log_message)
 
     if system == "windows":
         await windows_pos(ip, "shutdown", "/r /f /t 5")
@@ -103,10 +96,6 @@ async def reboot_action(call):
         if await ping_status(ip, 200):
             log_message = f"Статус перезагрузки: касса {pos} Перезагружается"
             await send_helper(bot, message, log_message)
-            # await logger(log_message)
-            # await admin_notify(bot, log_message)
-            # await bot.reply_to(message, log_message)
-
             await asyncio.sleep(1)
             result_reboot = await reply_reboot(bot, message, ip, pos, 100)
             if result_reboot:
@@ -115,9 +104,6 @@ async def reboot_action(call):
         else:
             log_message = f"Ошибка. Касса {pos} не перезагружена."
             await send_helper(bot, message, log_message)
-            # await bot.reply_to(message, log_message)
-            # await logger(log_message)
-            # await admin_notify(bot, log_message)
 
 
 # Cancel command
@@ -141,10 +127,6 @@ async def reply_reboot(bot_reply: AsyncTeleBot, message, ip_host, pos_number, co
         flag = False
 
     await send_helper(bot_reply, message, log_message)
-    # await bot_reply.reply_to(message, log_message)
-    # await logger(log_message)
-    # await admin_notify(bot, log_message)
-
     return flag
 
 
@@ -158,10 +140,6 @@ async def reply_start(bot_reply: AsyncTeleBot, message, ip_host, pos_number, cou
 
     await bot_reply.send_message(chat_dict["work_chat"], log_message)
     await send_helper(bot_reply, message, log_message)
-
-    # await bot_reply.reply_to(message, log_message)
-    # await logger(log_message)
-    # await admin_notify(bot, log_message)
 
 
 async def send_helper(bot: AsyncTeleBot, message, log_message) -> None:

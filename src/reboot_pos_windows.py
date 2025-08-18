@@ -1,8 +1,8 @@
 from pypsexec.client import Client
+from kasse import windows_credentials
 
-
-username = "scot"
-password = "scot"
+username = windows_credentials["login"]
+password = windows_credentials["password"]
 
 
 async def windows_pos(ip_host: str, executable: str, arguments: str) -> str:
