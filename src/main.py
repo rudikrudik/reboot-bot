@@ -10,6 +10,7 @@ from ping import ping
 from pos_status import ping_status, reboot_status, pos_program_status
 from logger import logger
 from admin_notification import admin_notify
+from kasse import chat_dict
 
 
 bot = AsyncTeleBot(os.getenv('TOKEN'))
@@ -144,15 +145,14 @@ async def reply_reboot(bot_reply: AsyncTeleBot, message, ip_host, pos_number, co
 async def reply_start(bot_reply: AsyncTeleBot, message, ip_host, pos_number, count, system) -> None:
     if await pos_program_status(ip_host, count, system):
         log_message = f"Кассовая программа на кассе №{pos_number} загружена. Проверьте работу"
-        await bot_reply.reply_to(message, log_message)
-        await logger(log_message)
-        await admin_notify(bot, log_message)
 
     else:
         log_message = f"Ошибка, кассовая программа на кассе №{pos_number} не загружена"
-        await bot_reply.reply_to(message, log_message)
-        await logger(log_message)
-        await admin_notify(bot, log_message)
+
+    await bot_reply.reply_to(chat_dict["work"], log_message)
+    await bot_reply.reply_to(message, log_message)
+    await logger(log_message)
+    await admin_notify(bot, log_message)
 
 
 async def main():
