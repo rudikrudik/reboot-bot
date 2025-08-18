@@ -140,7 +140,7 @@ async def reply_reboot(bot_reply: AsyncTeleBot, message, ip_host, pos_number, co
         log_message = f"Ошибка, касса №{pos_number} не загрузилась"
         flag = False
 
-    await send_helper(bot, message, log_message)
+    await send_helper(bot_reply, message, log_message)
     # await bot_reply.reply_to(message, log_message)
     # await logger(log_message)
     # await admin_notify(bot, log_message)
