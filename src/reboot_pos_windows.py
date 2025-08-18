@@ -1,22 +1,29 @@
 from pypsexec.client import Client
-
-
-username = "scot"
-password = "scot"
+from logger import logger
+from kasse import windows_credentials
 
 
 async def windows_pos(ip_host: str, executable: str, arguments: str) -> str:
-    connect = Client(ip_host, username=username, password=password, encrypt=False)
-    connect.connect()
-
     try:
-        connect.create_service()
-        result = connect.run_executable(executable, arguments=arguments)
-    finally:
-        connect.remove_service()
-        connect.disconnect()
+        client = Client(ip_host,
+                        username=windows_credentials["login"],
+                        password=windows_credentials["password"],
+                        encrypt=False
+                        )
 
-    if result[0]:
-        return result[0].decode('ISO-8859-1')
-    if result[1]:
-        return result[1].decode('ISO-8859-1')
+        client.connect()
+        stdout, stderr, rc = client.run_executable(executable, arguments=arguments)
+
+        await logger(f"Pypsexec return code: {rc}")
+
+        if stdout:
+            return stdout.decode('ISO-8859-1')
+        if stderr:
+            return stderr.decode('ISO-8859-1')
+
+    except Exception as error:
+        await logger(f"Error pypexec: {error}")
+
+    finally:
+        if 'client' in locals() and client.is_connected:
+            client.close()

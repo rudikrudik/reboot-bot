@@ -46,13 +46,16 @@ async def pos_program_status(ip_host: str, count: int, system: str) -> bool:
                 if result.find("YES") != -1:
                     return True
             except BaseException as error:
-                await logger(f"Ошибка получения данных о кассовой системе {error}")
+                await logger(f"Ошибка получения данных о кассовой системе linux: {error}")
                 return False
 
         else:
-            result = await windows_pos(ip_host, "tasklist", '/FI "IMAGENAME eq SCOTAppU.exe"')
-            if result.find("SCOTAppU.exe") != -1:
-                return True
+            try:
+                result = await windows_pos(ip_host, "tasklist", '/FI "IMAGENAME eq SCOTAppU.exe"')
+                if result.find("SCOTAppU.exe") != -1:
+                    return True
+            except BaseException as error:
+                await logger(f"Ошибка получения данных о кассовой системе windows: {error}")
 
         count_for_program_process += 1
         await asyncio.sleep(1)
