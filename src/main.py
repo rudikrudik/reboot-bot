@@ -116,9 +116,9 @@ async def reboot_action(call):
             await admin_notify(bot, log_message)
 
 
-# Cancel
+# Cancel command
 @bot.callback_query_handler(func=lambda call: json.loads(call.data).get("action") == 'cancel')
-async def cansel_action(call):
+async def cancel_action(call):
     message = call.message
     chat_id = message.chat.id
     message_id = message.message_id
@@ -152,9 +152,18 @@ async def reply_start(bot_reply: AsyncTeleBot, message, ip_host, pos_number, cou
         log_message = f"Ошибка, кассовая программа на кассе №{pos_number} не загружена"
 
     await bot_reply.send_message(chat_dict["work_chat"], log_message)
-    await bot_reply.reply_to(message, log_message)
+    await send_helper(bot_reply, message, log_message)
+
+    # await bot_reply.reply_to(message, log_message)
+    # await logger(log_message)
+    # await admin_notify(bot, log_message)
+
+
+async def send_helper(bot: AsyncTeleBot, reply_message, log_message) -> None:
+    await bot.reply_to(reply_message, log_message)
     await logger(log_message)
     await admin_notify(bot, log_message)
+
 
 
 async def main():
