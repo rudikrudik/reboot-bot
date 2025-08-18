@@ -149,7 +149,7 @@ async def reply_start(bot_reply: AsyncTeleBot, message, ip_host, pos_number, cou
     else:
         log_message = f"Ошибка, кассовая программа на кассе №{pos_number} не загружена"
 
-    await bot_reply.reply_to(chat_dict["work_chat"], log_message)
+    await bot_reply.send_message(chat_dict["work_chat"], log_message)
     await bot_reply.reply_to(message, log_message)
     await logger(log_message)
     await admin_notify(bot, log_message)
