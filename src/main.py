@@ -138,11 +138,6 @@ async def reply_start(bot_reply: AsyncTeleBot, message, ip_host, pos_number, cou
     else:
         log_message = f"Ошибка, кассовая программа на кассе №{pos_number} не загружена"
 
-    try:
-        await bot_reply.send_message(chat_dict["work_chat"], log_message)
-    except BaseException as err:
-        await logger(f"Error to send chat {err}")
-
     await send_helper(bot_reply, message, log_message)
 
 
