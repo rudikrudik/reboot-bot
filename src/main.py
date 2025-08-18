@@ -10,7 +10,6 @@ from ping import ping
 from pos_status import ping_status, reboot_status, pos_program_status
 from logger import logger
 from admin_notification import admin_notify
-from kasse import chat_dict
 
 
 bot = AsyncTeleBot(os.getenv('TOKEN'))
