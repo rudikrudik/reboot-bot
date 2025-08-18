@@ -129,17 +129,17 @@ async def cansel_action(call):
 async def reply_reboot(bot_reply: AsyncTeleBot, message, ip_host, pos_number, count) -> bool:
     if await reboot_status(ip_host, count):
         log_message = f"Касса {pos_number} перезагружена. Загружается кассовая программа"
-        await bot_reply.reply_to(message, log_message)
-        await logger(log_message)
-        await admin_notify(bot, log_message)
-        return True
+        flag = True
 
     else:
         log_message = f"Ошибка, касса №{pos_number} не загрузилась"
-        await bot_reply.reply_to(message, log_message)
-        await logger(log_message)
-        await admin_notify(bot, log_message)
-        return False
+        flag = False
+
+    await bot_reply.reply_to(message, log_message)
+    await logger(log_message)
+    await admin_notify(bot, log_message)
+
+    return flag
 
 
 async def reply_start(bot_reply: AsyncTeleBot, message, ip_host, pos_number, count, system) -> None:
@@ -149,7 +149,7 @@ async def reply_start(bot_reply: AsyncTeleBot, message, ip_host, pos_number, cou
     else:
         log_message = f"Ошибка, кассовая программа на кассе №{pos_number} не загружена"
 
-    await bot_reply.reply_to(chat_dict["work"], log_message)
+    await bot_reply.reply_to(chat_dict["work_chat"], log_message)
     await bot_reply.reply_to(message, log_message)
     await logger(log_message)
     await admin_notify(bot, log_message)
