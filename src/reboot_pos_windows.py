@@ -12,6 +12,7 @@ async def windows_pos(ip_host: str, executable: str, arguments: str) -> str:
                         )
 
         client.connect()
+        client.create_service()
         stdout, stderr, rc = client.run_executable(executable, arguments=arguments)
 
         await logger(f"Pypsexec return code: {rc}")
@@ -25,5 +26,5 @@ async def windows_pos(ip_host: str, executable: str, arguments: str) -> str:
         await logger(f"Error pypexec: {error}")
 
     finally:
-        if 'client' in locals() and client.is_connected:
-            client.close()
+        client.remove_service()
+        client.disconnect()
