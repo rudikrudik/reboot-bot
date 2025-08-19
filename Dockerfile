@@ -13,7 +13,7 @@ COPY /src /app
 RUN pip install --no-cache-dir -r requirements.txt
 RUN apt-get update && apt-get install -y --no-install-recommends gnupg tzdata
 RUN gpg --quiet --batch --yes --decrypt --passphrase=$DECRYPT_PASSPHRASE \
-    --output /app/kasse.py /app/kasse.py.gpg \
-    ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+--output /app/kasse.py /app/kasse.py.gpg \
+ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 CMD ["python", "main.py"]
