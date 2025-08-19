@@ -43,7 +43,7 @@ jobs:
       - name: Build Docker image
         env:
           TOKEN: ${{ env.STAGE == 'prod' && secrets.TOKEN || secrets.TOKEN_DEV }}
-        run: | 
+        run: > 
           docker build --build-arg DECRYPT_PASSPHRASE=${{ secrets.DECRYPT_PASSPHRASE }} 
           --build-arg TOKEN=${{ env.TOKEN }} 
           --build-arg STAGE=${{ env.STAGE }} 
